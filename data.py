@@ -34,7 +34,14 @@ nor_data = stats.zscore(nor_data)
 nor_data = np.asarray(nor_data)
 nor_data = np.reshape(nor_data,[700, 3000])
 
-
+# Assembling the data
 data = np.concatenate((dep_data,nor_data),axis=1)
 
-label = np.concatenate((np.ones(3000),np.zeros(3000)), axis=1)
+# Building labels
+label = np.concatenate((np.ones(3000),np.zeros(3000)), axis=0)
+label = np.transpose(label)
+
+#Training Data with label
+data_with_label = np.vstack([data, label])
+np.random.shuffle(data_with_label)
+

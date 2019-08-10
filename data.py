@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from scipy import stats
+from sklearn.utils import shuffle
 
 # Global
 numFiles = 30
@@ -36,12 +37,68 @@ nor_data = np.reshape(nor_data,[700, 3000])
 
 # Assembling the data
 data = np.concatenate((dep_data,nor_data),axis=1)
+data = np.transpose(data)
+
 
 # Building labels
 label = np.concatenate((np.ones(3000),np.zeros(3000)), axis=0)
-label = np.transpose(label)
+
+
+#shuffling the set
+data,label =shuffle(data, label, random_state=0) 
+
+#Reshaping the data
+label= pd.Categorical(label)
+data= np.reshape(data, [1,700,1, 6000])
 
 #Training Data with label
-data_with_label = np.vstack([data, label])
-np.random.shuffle(data_with_label)
+# data_with_label = np.vstack([data, label])
 
+from keras.models import Sequential
+from keras.layers import Dense, Dropout, Activation
+from keras.layers import Embedding
+from keras.layers import Conv1D, GlobalAveragePooling1D, MaxPooling1D
+from keras import optimizers
+from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import train_test_split
+import numpy as np
+
+
+#keras.layers.Conv1D(filters, kernel_size, strides=1, padding='valid', data_format='channels_last', dilation_rate=1, activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None)
+
+#CNN network
+model = Sequential()
+model.add(Conv1D(32, 5, activation='relu', input_shape=(700, 1)))
+model.add(MaxPooling1D(pool_size=2,strides=2 ))
+
+model.add(Dropout(0.1))
+
+model.add(Dense(1024, activation='sigmoid'))
+model.add(Dense(32, activation='sigmoid'))
+model.add(Dense(2, activation='sigmoid'))
+model.add(Activation('softmax'))
+
+
+sgd = optimizers.SGD(lr=0.005, decay=1e-6, momentum=0.9, nesterov=True)
+model.compile(loss='mean_squared_error', optimizer=sgd)
+    
+#Data Splitting
+X_train, X_test, y_train, y_test = train_test_split(data, label, test_size=0.1, random_state=0)
+
+#training
+model.fit(X_train, y_train, batch_size=1, epochs=1)
+
+#evaluate
+#score = model.evaluate(X_test, y_test, batch_size=15)
+#print(score)
+
+# #Prediction-No
+# a=np.expand_dims(dataset[23000], axis=0)
+# output=model.predict(a)
+# print(output)
+
+
+# #Prediction-Yes
+# a=np.expand_dims(dataset[100], axis=0)
+# output=model.predict(a)
+# print(output)

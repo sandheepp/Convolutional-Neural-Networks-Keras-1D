@@ -48,8 +48,10 @@ label = np.concatenate((np.ones(3000),np.zeros(3000)), axis=0)
 data,label =shuffle(data, label, random_state=0) 
 
 #Reshaping the data
-label= pd.Categorical(label)
-data= np.reshape(data, [1,700,1, 6000])
+#label= pd.Categorical(label)
+#data= np.reshape(data, [6000, 700, 1,1])
+#label = np.reshape(label,[1, label.shape])
+#label = np.reshape(label,[6000])
 
 #Training Data with label
 # data_with_label = np.vstack([data, label])
@@ -59,25 +61,23 @@ from keras.layers import Dense, Dropout, Activation
 from keras.layers import Embedding
 from keras.layers import Conv1D, GlobalAveragePooling1D, MaxPooling1D
 from keras import optimizers
+from keras import backend as K
 from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import train_test_split
 import numpy as np
 
-
+#K.set_image_dim_ordering('tf')
 #keras.layers.Conv1D(filters, kernel_size, strides=1, padding='valid', data_format='channels_last', dilation_rate=1, activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None)
 
 #CNN network
 model = Sequential()
-model.add(Conv1D(32, 5, activation='relu', input_shape=(700, 1)))
-model.add(MaxPooling1D(pool_size=2,strides=2 ))
-
+model.add(Conv1D(filters= 32, kernel_size = 5, activation='relu', input_shape=(1,700)))
+model.add(MaxPooling1D(pool_size=2,strides=2))
 model.add(Dropout(0.1))
-
 model.add(Dense(1024, activation='sigmoid'))
 model.add(Dense(32, activation='sigmoid'))
 model.add(Dense(2, activation='sigmoid'))
 model.add(Activation('softmax'))
-
 
 sgd = optimizers.SGD(lr=0.005, decay=1e-6, momentum=0.9, nesterov=True)
 model.compile(loss='mean_squared_error', optimizer=sgd)

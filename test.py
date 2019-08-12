@@ -48,7 +48,7 @@ data,label =shuffle(data, label, random_state=0)
 #Reshaping the data
 #label= pd.Categorical(label)
 #data = np.reshape(data, [6000,1, 700, 1])
-data= data.reshape(data.shape[0], 700, 1 )
+data= data.reshape(data.shape[0], data.shape[1], 1 )
 #label = np.reshape(label,[1, label.shape])
 #label = np.reshape(label,[6000])
 
@@ -87,13 +87,19 @@ model.compile(loss='mean_squared_error', optimizer=sgd)
 X_train, X_test, y_train, y_test = train_test_split(data, label, test_size=0.1, random_state=0)
 
 #training
-model.fit(X_train, y_train,batch_size=10, epochs=1)
+model.fit(X_train, y_train, batch_size=10, epochs=1)
 
-#evaluate1111111111
-#score = model.evaluate(X_test, y_test, batch_size=15)
-#print(score)
+#evaluate
+score = model.evaluate(X_test, y_test, batch_size=15)
+print(score)
 
 # Prediction-No
 # a=np.expand_dims(dataset[23000], axis=0)
 # output=model.predict(a)
 # print(output)
+
+#Random prediction
+x_input = data[6]
+x_input = x_input.reshape((1,700, 1))
+yhat = model.predict(x_input, verbose=0)
+print(yhat)

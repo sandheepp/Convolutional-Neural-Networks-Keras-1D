@@ -47,8 +47,8 @@ data,label =shuffle(data, label, random_state=0)
 
 #Reshaping the data
 #label= pd.Categorical(label)
-data = np.reshape(data, [6000,1, 700, 1])
-data= data.reshape(data.shape[0], 1, 700, 1)
+#data = np.reshape(data, [6000,1, 700, 1])
+data= data.reshape(data.shape[0], 700, 1 )
 #label = np.reshape(label,[1, label.shape])
 #label = np.reshape(label,[6000])
 
@@ -56,7 +56,7 @@ data= data.reshape(data.shape[0], 1, 700, 1)
 #data_with_label = np.vstack([data, label])
 
 from keras.models import Sequential
-from keras.layers import Dense, Dropout, Activation
+from keras.layers import Dense, Dropout, Activation,Flatten
 from keras.layers import Embedding
 from keras.layers import Conv1D, GlobalAveragePooling1D, MaxPooling1D
 from keras import optimizers
@@ -70,12 +70,13 @@ import numpy as np
 
 #CNN network
 model = Sequential()
-model.add(Conv1D(filters= 32, kernel_size = 5, input_shape=(1,700,1)))
-#model.add(MaxPooling1D(pool_size=2,strides=2))
-#model.add(Dropout(0.1))
-#model.add(Dense(1024, activation='sigmoid'))
-#model.add(Dense(32, activation='sigmoid'))
-#model.add(Dense(2, activation='sigmoid'))
+model.add(Conv1D(filters= 32, kernel_size = 5, input_shape=(700,1)))
+model.add(MaxPooling1D(pool_size=2,strides=2))
+model.add(Dropout(0.1))
+model.add(Flatten())
+model.add(Dense(1024, activation='sigmoid'))
+model.add(Dense(32, activation='sigmoid'))
+model.add(Dense(1, activation='softmax'))
 #model.add(Activation('softmax'))
 
 #Optimizers
@@ -86,9 +87,9 @@ model.compile(loss='mean_squared_error', optimizer=sgd)
 X_train, X_test, y_train, y_test = train_test_split(data, label, test_size=0.1, random_state=0)
 
 #training
-model.fit(X_train, y_train, batch_size=10, epochs=1)
+model.fit(X_train, y_train,batch_size=10, epochs=1)
 
-#evaluate
+#evaluate1111111111
 #score = model.evaluate(X_test, y_test, batch_size=15)
 #print(score)
 

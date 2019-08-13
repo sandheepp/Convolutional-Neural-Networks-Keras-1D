@@ -100,13 +100,6 @@ predictions = model.predict(X_test, batch_size=None, verbose=0)
 
 
 
-
-
-# Prediction-No
-# a=np.expand_dims(dataset[23000], axis=0)
-# output=model.predict(a)
-# print(output)
-
 #Random prediction
 # x_input = data[6]
 # x_input = x_input.reshape((1,700, 1))

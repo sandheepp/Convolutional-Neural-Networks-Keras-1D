@@ -81,7 +81,7 @@ model.add(Dense(1, activation='softmax'))
 
 #Optimizers
 sgd = optimizers.SGD(lr=0.005, decay=1e-6, momentum=0.9, nesterov=True)
-model.compile(loss='mean_squared_error', optimizer=sgd)
+model.compile(loss='mean_squared_error', optimizer='sgd')
 
 #Data Splitting
 X_train, X_test, y_train, y_test = train_test_split(data, label, test_size=0.1, random_state=0)
@@ -93,13 +93,22 @@ model.fit(X_train, y_train, batch_size=10, epochs=1)
 score = model.evaluate(X_test, y_test, batch_size=15)
 print(score)
 
+
+#Prediction
+predictions = model.predict(X_test, batch_size=None, verbose=0)
+
+
+
+
+
+
 # Prediction-No
 # a=np.expand_dims(dataset[23000], axis=0)
 # output=model.predict(a)
 # print(output)
 
 #Random prediction
-x_input = data[6]
-x_input = x_input.reshape((1,700, 1))
-yhat = model.predict(x_input, verbose=0)
-print(yhat)
+# x_input = data[6]
+# x_input = x_input.reshape((1,700, 1))
+# yhat = model.predict(x_input, verbose=0)
+# print(yhat)

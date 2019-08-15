@@ -1,14 +1,14 @@
 import time
 t = time.time()
 
-#Import
+#Import training data and labels
 from dataset import data, label
 
-# do stuff
+# Count elapsed time and print it
 elapsed = time.time() - t
-
 print("Time taken for data import(in sec):"+str(elapsed))
 
+#importing modules
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation, Flatten
 from keras.layers import Embedding
@@ -18,6 +18,11 @@ from keras import backend as K
 from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import train_test_split
 import numpy as np
+
+# Count elapsed time for import and print it
+elapsed = time.time() - t
+print("Time taken for data/modules import(in sec):"+str(elapsed))
+
 
 #input data shape
 data_shape=data.shape[1] 

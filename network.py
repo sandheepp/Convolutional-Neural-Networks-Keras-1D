@@ -19,6 +19,25 @@ from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import train_test_split
 import numpy as np
 
+
+# RELU function with custom arguments
+def relu(x, alpha=0, max_value=0.5, threshold=0.5):
+    """Rectified Linear Unit.
+    With default values, it returns element-wise `max(x, 0)`.
+    Otherwise, it follows:
+    `f(x) = max_value` for `x >= max_value`,
+    `f(x) = x` for `threshold <= x < max_value`,
+    `f(x) = alpha * (x - threshold)` otherwise.
+    # Arguments
+        x: Input tensor.
+        alpha: float. Slope of the negative part. Defaults to zero.
+        max_value: float. Saturation threshold.
+        threshold: float. Threshold value for thresholded activation.
+    # Returns
+        A tensor.
+    """
+    return K.relu(x, alpha=alpha, max_value=max_value, threshold=threshold)
+
 # Count elapsed time for import and print it
 elapsed = time.time() - t
 print("Time taken for data/modules import(in sec):"+str(elapsed))
@@ -37,7 +56,11 @@ model.add(Dense(1024, activation='sigmoid'))
 model.add(Dense(32, activation='sigmoid'))
 model.add(Dense(2, activation='sigmoid'))
 model.add(Dense(1, activation='sigmoid'))
-#model.add(Activation('softmax'))
+model.add(Activation("relu"))
+    
+#K.relu(x, alpha=0.0, max_value=None, threshold=0.0)
+#model.add(Activation('relu', alpha=0.0, max_value=None, threshold=0.0))
+#model.activations.relu(x, alpha=0.0, max_value=None, threshold=0.0)
 
 #Optimizers
 sgd = optimizers.SGD(lr=0.005, decay=1e-6, momentum=0.9, nesterov=True)

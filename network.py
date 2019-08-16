@@ -31,7 +31,7 @@ data_shape=data.shape[1]
 model = Sequential()
 model.add(Conv1D(filters= 32, kernel_size = 5, input_shape=(data_shape,1)))
 model.add(MaxPooling1D(pool_size=2,strides=2))
-model.add(Dropout(0.1))
+#model.add(Dropout(0.1))
 model.add(Flatten())
 model.add(Dense(1024, activation='sigmoid'))
 model.add(Dense(32, activation='sigmoid'))
@@ -59,7 +59,7 @@ score = model.evaluate(X_CV, y_CV, batch_size=10)
 print(score)
 
 #Generates output predictions for the input samples.
-#predictions = model.predict(X_test, batch_size=None, verbose=0)
-#print(predictions)
+predictions = model.predict(X_test, batch_size=None, verbose=0)
+print(predictions)
 
 #abcd

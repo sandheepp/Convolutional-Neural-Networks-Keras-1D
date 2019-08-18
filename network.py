@@ -20,23 +20,23 @@ from sklearn.model_selection import train_test_split
 import numpy as np
 
 
-# RELU function with custom arguments
-def relu(x, alpha=0, max_value=0.5, threshold=0.5):
-    """Rectified Linear Unit.
-    With default values, it returns element-wise `max(x, 0)`.
-    Otherwise, it follows:
-    `f(x) = max_value` for `x >= max_value`,
-    `f(x) = x` for `threshold <= x < max_value`,
-    `f(x) = alpha * (x - threshold)` otherwise.
-    # Arguments
-        x: Input tensor.
-        alpha: float. Slope of the negative part. Defaults to zero.
-        max_value: float. Saturation threshold.
-        threshold: float. Threshold value for thresholded activation.
-    # Returns
-        A tensor.
-    """
-    return K.relu(x, alpha=alpha, max_value=max_value, threshold=threshold)
+# # RELU function with custom arguments
+# def relu(x, alpha=1000, max_value=0.50, threshold=0.50):
+#     """Rectified Linear Unit.
+#     With default values, it returns element-wise `max(x, 0)`.
+#     Otherwise, it follows:
+#     `f(x) = max_value` for `x >= max_value`,
+#     `f(x) = x` for `threshold <= x < max_value`,
+#     `f(x) = alpha * (x - threshold)` otherwise.
+#     # Arguments
+#         x: Input tensor.
+#         alpha: float. Slope of the negative part. Defaults to zero.
+#         max_value: float. Saturation threshold.
+#         threshold: float. Threshold value for thresholded activation.
+#     # Returns
+#         A tensor.
+#     """
+#     return K.relu(x, alpha=alpha, max_value=max_value, threshold=threshold)
 
 # Count elapsed time for import and print it
 elapsed = time.time() - t
@@ -56,11 +56,7 @@ model.add(Dense(1024, activation='sigmoid'))
 model.add(Dense(32, activation='sigmoid'))
 model.add(Dense(2, activation='sigmoid'))
 model.add(Dense(1, activation='sigmoid'))
-model.add(Activation("relu"))
-    
-#K.relu(x, alpha=0.0, max_value=None, threshold=0.0)
-#model.add(Activation('relu', alpha=0.0, max_value=None, threshold=0.0))
-#model.activations.relu(x, alpha=0.0, max_value=None, threshold=0.0)
+#model.add(Activation("relu"))
 
 #Optimizers
 sgd = optimizers.SGD(lr=0.005, decay=1e-6, momentum=0.9, nesterov=True)
@@ -79,10 +75,47 @@ model.fit(X_train, y_train, batch_size=64, epochs=1)
 
 #evaluate: Returns the loss value & metrics values(accuracy) for the model in test mode.
 score = model.evaluate(X_CV, y_CV, batch_size=10)
-print(score)
+print("Evaluation score is ", score)
 
 #Generates output predictions for the input samples.
 predictions = model.predict(X_test, batch_size=None, verbose=0)
-print(predictions)
 
-#abcd
+#predictions, y_test
+v = np.empty([600, 2]) 
+v[:,0] = predictions[:,0]
+v[:,1]= y_test[:] 
+
+#print(v)
+
+#save the value to a text file
+np.savetxt("a.txt",v,fmt='%4f')
+
+#Plotting the predictions and test in the same graph
+
+# # importing the required module 
+# import matplotlib.pyplot as plt 
+
+# # line 1 points 
+# x1 = list(range(1, 601)) 
+# y1 = v[:,0]
+# # plotting the line 1 points  
+# plt.plot(x1, y1, label = "predictions") 
+  
+# # line 2 points 
+# x2 =list(range(1, 601)) 
+# y2 =  v[:,1]
+# # plotting the line 2 points  
+# plt.plot(x2, y2, label = "y_test") 
+  
+# # naming the x axis 
+# plt.xlabel('x - axis') 
+# # naming the y axis 
+# plt.ylabel('y - axis') 
+# # giving a title to my graph 
+# plt.title('Two lines on same graph!') 
+  
+# # show a legend on the plot 
+# plt.legend() 
+  
+# # uncomment the function to show the plot 
+# plt.show() 

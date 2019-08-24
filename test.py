@@ -4,8 +4,8 @@ from scipy import stats
 from sklearn.utils import shuffle
 
 # Global
-numFiles = 30
-endRow = 70000
+numFiles = 30 # the number of files of a particular type
+endRow = 70000 # the data points in one sample
 
 # Depression data
 dep_data=[]

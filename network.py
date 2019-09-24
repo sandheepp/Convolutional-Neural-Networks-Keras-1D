@@ -1,12 +1,12 @@
 import time
 t = time.time()
 
-#Import training data and labels
+#Import training data and labels from the other python file
 from dataset import data, label
 
 # Count elapsed time and print it
 elapsed = time.time() - t
-print("Time taken for data import(in sec):"+str(elapsed))
+print("Time taken for data import from dataset.py(in sec):"+str(elapsed))
 
 #importing modules
 from keras.models import Sequential

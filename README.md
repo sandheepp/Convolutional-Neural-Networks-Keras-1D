@@ -3,4 +3,4 @@
 Deep CNN to detect depression
 
 
-Dataset.py is used to extract the data from the files
+Dataset.py is used to extract the data from the files.
